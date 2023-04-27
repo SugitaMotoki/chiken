@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -28,49 +35,80 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  String _type = "偶数";
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-      if (_counter % 2 == 0) {
-        _type = "偶数";
-      } else {
-        _type = "奇数";
-      }
-    });
-  }
+  String _email = "";
+  String _password = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(_type,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.red,
-                ))
-          ],
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Email'),
+                onChanged: (String value) {
+                  setState(() {
+                    _email = value;
+                  });
+                },
+              ),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Password'),
+                onChanged: (String value) {
+                  setState(() {
+                    _password = value;
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: const Text("Sign up"),
+                onPressed: () async {
+                  try {
+                    final User? user = (await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: _email, password: _password))
+                        .user;
+                    if (user != null) {
+                      print("User created: ${user.email}, ${user.uid}");
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+              ),
+              ElevatedButton(
+                  child: const Text("Sign in"),
+                  onPressed: () async {
+                    try {
+                      final User? user = (await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: _email, password: _password))
+                          .user;
+                      if (user != null) {
+                        print("User signed in: ${user.email}, ${user.uid}");
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  }),
+              ElevatedButton(
+                child: const Text("reset password"),
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: _email);
+                    print("Password reset email sent");
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+              )
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
