@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "569660226188",
+    "project_id": "chiken-test-221a9",
+    "storage_bucket": "chiken-test-221a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569660226188:android:ead097035c583039d1d9a9",
+        "android_client_info": {
+          "package_name": "com.example.chiken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569660226188-dc1eq58m12oak6q92spmmb6ps8qklgrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPWrq9qkVZuOl2GgWjO4d3usnrPcGec9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569660226188-dc1eq58m12oak6q92spmmb6ps8qklgrf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "569660226188-4a5tsgbfr5659ievae1ulu5vh4g9smfm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chiken"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
